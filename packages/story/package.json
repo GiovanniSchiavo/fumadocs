@@ -87,6 +87,6 @@
   "inlinedDependencies": {
     "@fastify/deepmerge": "3.2.1",
     "@ungap/structured-clone": "1.4.0",
-    "react-error-boundary": "6.1.4"
+    "react-error-boundary": "6.1.5"
   }
 }

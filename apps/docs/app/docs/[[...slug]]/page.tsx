@@ -31,6 +31,7 @@ import { NotFound } from '@/components/layouts/not-found';
 import { getSuggestions } from './suggestions';
 import { PathUtils } from 'fumadocs-core/source';
 import { AsyncAPIPageLazy, GraphQLPageLazy, OpenAPIPageLazy } from './lazy';
+import { EditorToolbar, FrontmatterText } from 'fumadocs-editor';
 
 function PreviewRenderer({ preview }: { preview: string }): ReactNode {
   if (preview && preview in Preview) {
@@ -100,14 +101,19 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
 
   return (
     <DocsPage toc={toc} {...pageProps}>
-      <h1 className="text-[1.75em] font-semibold">{page.data.title}</h1>
-      <p className="text-lg text-fd-muted-foreground mb-2">{page.data.description}</p>
+      <h1 className="text-[1.75em] font-semibold">
+        <FrontmatterText name="title">{page.data.title}</FrontmatterText>
+      </h1>
+      <p className="text-lg text-fd-muted-foreground mb-2">
+        <FrontmatterText name="description">{page.data.description}</FrontmatterText>
+      </p>
       <div className="flex flex-row flex-wrap gap-2 items-center border-b pb-6 mb-4">
         <MarkdownCopyButton markdownUrl={`${page.url}.mdx`} />
         <ViewOptionsPopover
           markdownUrl={`${page.url}.mdx`}
           githubUrl={`https://github.com/${owner}/${repo}/blob/dev/apps/docs/content/docs/${page.path}`}
         />
+        <EditorToolbar path={page.path} title={page.data.title} />
       </div>
       <div className="prose flex-1 text-fd-foreground/90">
         {page.data.preview && <PreviewRenderer preview={page.data.preview} />}
